@@ -1,7 +1,5 @@
 import arcpy
 
-import os
-
 def geocode_points(points_csv, out_fc, locator, addr_field, zip_field):
     '''Geocode the points_csv, only saving the points that have a valid match to out_fc
 
@@ -15,8 +13,10 @@ def geocode_points(points_csv, out_fc, locator, addr_field, zip_field):
 
     #: using 'memory' seems to limit the geocode to 1000
     # geocode_fc = r'memory\temp_geocode_fc'
-    geocode_fc = r'c:\temp\memorytest\test.gdb\geocoded_test_intermediate'
-    # geocode_fc = os.path.join(arcpy.env.scratchGDB, 'intermediate')
+    
+    #: using 'in_memory' or an explicit local path, it processes all records
+    geocode_fc = r'in_memory\temp_geocode_fc'
+    # geocode_fc = r'c:\temp\memorytest\test.gdb\geocoded_test_intermediate'
 
     print(geocode_fc)
     fields_str = f"'Street or Intersection' {addr_field} VISIBLE NONE;'City or Placename' <None> VISIBLE NONE;'ZIP Code' {zip_field} VISIBLE NONE"
@@ -33,15 +33,15 @@ def geocode_points(points_csv, out_fc, locator, addr_field, zip_field):
     arcpy.management.Delete(geocode_fc)
 
     #: Testing environment stuff
-    environments = arcpy.ListEnvironments()
+    # environments = arcpy.ListEnvironments()
 
-    # Sort the environment names
-    # environments.sort()
+    # # Sort the environment names
+    # # environments.sort()
 
-    for environment in environments:
-        # Format and print each environment and its current setting.
-        # (The environments are accessed by key from arcpy.env.)
-        print("{0:<30}: {1}".format(environment, arcpy.env[environment]))
+    # for environment in environments:
+    #     # Format and print each environment and its current setting.
+    #     # (The environments are accessed by key from arcpy.env.)
+    #     print("{0:<30}: {1}".format(environment, arcpy.env[environment]))
 
 
 if __name__ == '__main__':
